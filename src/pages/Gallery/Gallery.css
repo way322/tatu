@@ -1,0 +1,453 @@
+.gallery {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    overflow: hidden; 
+}
+
+.gallery h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #1a1a1a;
+    font-size: 2.5rem;
+}
+
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #ff6b6b;
+    background: white;
+    color: #ff6b6b;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 107, 107, 0.1);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: #ff6b6b;
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.gallery-grid:not(.filtered) {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.gallery-grid:not(.filtered) .image-container {
+    height: 500px;
+}
+
+.gallery-grid.filtered {
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+}
+
+.gallery-grid.filtered .image-container {
+    height: 400px;
+}
+
+.gallery-item {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; 
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.image-container {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: height 0.3s ease;
+    width: 100%; 
+}
+
+.tattoo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: block; 
+}
+
+.gallery-item:hover .tattoo-image {
+    transform: scale(1.05);
+}
+
+.work-info {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+}
+
+.work-category {
+    background: #ff6b6b;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.work-master {
+    color: #666;
+    font-weight: bold;
+}
+
+.no-works-message {
+    text-align: center;
+    padding: 3rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 2rem 0;
+}
+
+.no-works-message p {
+    color: #666;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .gallery {
+        padding: 0 15px;
+    }
+
+    .gallery h1 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .gallery-filters {
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .gallery-grid:not(.filtered) .image-container,
+    .gallery-grid.filtered .image-container {
+        height: 300px;
+    }
+
+    .work-info {
+        padding: 1rem;
+    }
+
+    .work-category,
+    .work-master {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .gallery {
+        padding: 0 12px;
+    }
+
+    .gallery h1 {
+        font-size: 2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .gallery-filters {
+        gap: 0.4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .filter-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        border-radius: 20px;
+    }
+
+    .gallery-grid {
+        gap: 1.2rem;
+    }
+
+    .gallery-grid:not(.filtered) .image-container,
+    .gallery-grid.filtered .image-container {
+        height: 250px;
+    }
+
+    .work-info {
+        padding: 0.8rem;
+    }
+
+    .work-category,
+    .work-master {
+        font-size: 0.7rem;
+    }
+
+    .no-works-message {
+        padding: 2rem;
+        margin: 1.5rem 0;
+    }
+
+    .no-works-message p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery {
+        padding: 0 10px;
+        box-sizing: border-box; 
+    }
+
+    .gallery h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .gallery-filters {
+        gap: 0.3rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .filter-btn {
+        padding: 0.35rem 0.7rem;
+        font-size: 0.75rem;
+        border-width: 1px;
+    }
+
+    .gallery-grid {
+        gap: 1rem;
+        width: 100%; 
+    }
+
+    .gallery-item {
+        width: 100%;
+        margin: 0; 
+        box-sizing: border-box; 
+    }
+
+    .gallery-grid:not(.filtered) .image-container,
+    .gallery-grid.filtered .image-container {
+        height: 220px;
+    }
+
+    .gallery-item {
+        border-radius: 8px;
+    }
+
+    .work-info {
+        padding: 0.7rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .work-category,
+    .work-master {
+        font-size: 0.65rem;
+    }
+
+    .no-works-message {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .no-works-message p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .gallery {
+        padding: 0 8px;
+        width: 100%; 
+        box-sizing: border-box;
+    }
+
+    .gallery h1 {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .gallery-filters {
+        gap: 0.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .filter-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.7rem;
+        border-radius: 15px;
+    }
+
+    .gallery-grid {
+        gap: 0.8rem;
+        width: 100%;
+    }
+
+    .gallery-item {
+        width: 100%;
+        max-width: none; 
+    }
+
+    .gallery-grid:not(.filtered) .image-container,
+    .gallery-grid.filtered .image-container {
+        height: 200px;
+    }
+
+    .gallery-item {
+        border-radius: 6px;
+    }
+
+    .work-info {
+        padding: 0.6rem;
+        gap: 0.4rem;
+    }
+
+    .work-category,
+    .work-master {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .no-works-message {
+        padding: 1rem;
+        margin: 0.8rem 0;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .no-works-message p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .gallery {
+        padding: 0 6px;
+        width: 100%;
+    }
+
+    .gallery h1 {
+        font-size: 1.4rem;
+    }
+
+    .gallery-filters {
+        gap: 0.2rem;
+    }
+
+    .filter-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.65rem;
+    }
+
+    .gallery-grid {
+        gap: 0.8rem;
+        width: 100%;
+    }
+
+    .gallery-item {
+        width: 100%;
+    }
+
+    .gallery-grid:not(.filtered) .image-container,
+    .gallery-grid.filtered .image-container {
+        height: 180px;
+    }
+
+    .work-info {
+        padding: 0.5rem;
+    }
+
+    .work-category,
+    .work-master {
+        font-size: 0.55rem;
+    }
+}
+
+@media (max-width: 280px) {
+    .gallery {
+        padding: 0 4px;
+    }
+    
+    .gallery-grid:not(.filtered) .image-container,
+    .gallery-grid.filtered .image-container {
+        height: 160px;
+    }
+    
+    .filter-btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.6rem;
+    }
+}
+
+@media (hover: none) {
+    .gallery-item:hover {
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-item:hover .tattoo-image {
+        transform: none;
+    }
+
+    .filter-btn:hover {
+        transform: none;
+        background: white;
+    }
+
+    .filter-btn.active:hover {
+        background: #ff6b6b;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gallery-item,
+    .filter-btn,
+    .tattoo-image {
+        transition: none;
+    }
+
+    .gallery-item:hover,
+    .filter-btn:hover {
+        transform: none;
+    }
+
+    .gallery-item:hover .tattoo-image {
+        transform: none;
+    }
+}

@@ -1,0 +1,233 @@
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 4rem;
+  padding: 2rem 0;
+}
+
+.heroContent h1 {
+  font-size: 3.5rem;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.heroContent p {
+  font-size: 1.3rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: white;
+  padding: 1rem 2.5rem;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.heroImage {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  aspect-ratio: 16/9;
+}
+
+.heroImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 4rem;
+  padding: 3rem 0;
+}
+
+.feature {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature h3 {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.feature p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.previewGallery {
+  text-align: center;
+  padding: 3rem 0;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.previewGallery h2 {
+  font-size: 2.2rem;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
+.galleryPreview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0 3rem;
+}
+
+.previewItem {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.previewItem:hover {
+  transform: scale(1.05);
+}
+
+.previewItem img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.viewMore {
+  display: inline-block;
+  color: #ff6b6b;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.75rem 2rem;
+  border: 2px solid #ff6b6b;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.viewMore:hover {
+  background: #ff6b6b;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .home {
+    padding: 0 15px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 1rem 0;
+  }
+
+  .heroContent h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .heroContent p {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .heroImage {
+    max-width: 100%;
+    margin: 0 auto;
+    order: -1;
+  }
+
+  .ctaButton {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+  }
+
+  .feature {
+    padding: 1.5rem 1rem;
+  }
+
+  .feature h3 {
+    font-size: 1.3rem;
+  }
+
+  .previewGallery {
+    padding: 2rem 0;
+    margin-bottom: 1rem;
+  }
+
+  .previewGallery h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .galleryPreview {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .previewItem img {
+    height: 180px;
+  }
+
+  .viewMore {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+

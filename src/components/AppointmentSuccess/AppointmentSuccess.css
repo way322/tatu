@@ -1,0 +1,81 @@
+.appointment-success {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #4CAF50;
+    margin-bottom: 1rem;
+}
+
+.appointment-success h2 {
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+}
+
+.appointment-details {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    text-align: left;
+}
+
+.appointment-details h3 {
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.appointment-details p {
+    margin: 0.5rem 0;
+    color: #666;
+}
+
+.success-message {
+    color: #666;
+    line-height: 1.6;
+    margin: 1.5rem 0;
+}
+
+.redirect-timer {
+    display: block;
+    margin-top: 1rem;
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+.success-actions {
+    margin-top: 2rem;
+}
+
+.home-button {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.home-button:hover {
+    background: #ff5252;
+}
+
+@media (max-width: 768px) {
+    .appointment-success {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .success-icon {
+        font-size: 3rem;
+    }
+}

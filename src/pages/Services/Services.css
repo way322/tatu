@@ -1,0 +1,121 @@
+.services h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.services-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.service-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.service-card:hover {
+    border-color: #ff6b6b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-card.expanded {
+    border-color: #ff6b6b;
+    background-color: #fff5f5;
+    transform: translateY(0);
+}
+
+.service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.price {
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+.service-duration {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.service-details {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.service-examples {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.example-image {
+    border-radius: 8px;
+    overflow: hidden;
+    height: 200px;
+    transition: transform 0.3s ease;
+}
+
+.example-image:hover {
+    transform: scale(1.05);
+}
+
+.example-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.selected-service-info {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.select-service-button {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+    width: 100%;
+}
+
+.select-service-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(135deg, #ff5252, #ff6b6b);
+}
+
+@media (max-width: 768px) {
+    .service-examples {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .example-image {
+        height: 150px;
+    }
+
+    .service-card {
+        padding: 1rem;
+    }
+}
