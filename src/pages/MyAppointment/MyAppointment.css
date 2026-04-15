@@ -1,0 +1,108 @@
+.my-appointment-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.my-appointment-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.my-appointment-card h1 {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.my-appointment-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 24px;
+}
+
+.my-appointment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.my-appointment-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.my-appointment-form input {
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.my-appointment-search-button,
+.my-appointment-cancel-button {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.my-appointment-search-button {
+    background: #ff6b6b;
+    color: white;
+}
+
+.my-appointment-search-button:hover {
+    background: #ff5252;
+}
+
+.my-appointment-cancel-button {
+    margin-top: 20px;
+    background: #dc3545;
+    color: white;
+}
+
+.my-appointment-cancel-button:hover {
+    background: #c82333;
+}
+
+.my-appointment-error {
+    color: #d93025;
+    font-size: 14px;
+    margin: 0;
+}
+
+.my-appointment-success {
+    color: #198754;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.my-appointment-result {
+    margin-top: 24px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.my-appointment-result h2 {
+    margin-bottom: 16px;
+}
+
+.my-appointment-result p {
+    margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .my-appointment-card {
+        padding: 22px;
+    }
+}

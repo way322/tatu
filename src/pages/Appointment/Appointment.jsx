@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setAppointmentData, addAppointment, clearLastAppointment } from '../../store/slices/appointmentSlice';
+import {
+    setAppointmentData,
+    addAppointment,
+    clearLastAppointment,
+    clearBookingError
+} from '../../store/slices/appointmentSlice';
 import AppointmentSuccess from '../../components/AppointmentSuccess/AppointmentSuccess';
 import './Appointment.css';
 
@@ -10,13 +15,32 @@ import dmitryPhoto from '../../assets/images/masters/dmitry.png';
 import olgaPhoto from '../../assets/images/masters/olga.png';
 
 const Appointment = () => {
-    const { currentAppointment, masters } = useSelector(state => state.appointment);
+    const {
+        currentAppointment,
+        masters,
+        appointments
+    } = useSelector(state => state.appointment);
+
     const servicesList = useSelector(state => state.services.services);
     const dispatch = useDispatch();
+
     const [step, setStep] = useState(1);
     const [phone, setPhone] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
+    const [formError, setFormError] = useState('');
+    const [isConfirmed, setIsConfirmed] = useState(false);
+
+    const timeSlots = ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
+
+    const getLocalDateString = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    };
 
     const getMasterPhoto = (masterName) => {
         switch (masterName) {
@@ -34,6 +58,9 @@ const Appointment = () => {
     };
 
     const handleInputChange = (field, value) => {
+        setFormError('');
+        setIsConfirmed(false);
+        dispatch(clearBookingError());
         dispatch(setAppointmentData({ [field]: value }));
     };
 
@@ -49,57 +76,114 @@ const Appointment = () => {
         }
 
         setPhone(formatted);
-        handleInputChange('phone', cleaned);
+        setFormError('');
+        setIsConfirmed(false);
+        dispatch(clearBookingError());
+        dispatch(setAppointmentData({ phone: cleaned }));
     };
+
+    const isPastTimeSlot = (date, time) => {
+        if (!date || !time) return false;
+
+        const today = getLocalDateString();
+
+        if (date !== today) return false;
+
+        const [hours, minutes] = time.split(':').map(Number);
+        const slotDate = new Date();
+
+        slotDate.setHours(hours, minutes, 0, 0);
+
+        return slotDate.getTime() <= Date.now();
+    };
+
+    const isMasterBusy = () => {
+        return appointments.some(
+            (item) =>
+                item.master === currentAppointment.master &&
+                item.date === currentAppointment.date &&
+                item.status === 'pending'
+        );
+    };
+
+    const hasActiveAppointmentByPhone = () => {
+        const currentPhone = String(currentAppointment.phone || '').replace(/\D/g, '');
+
+        return appointments.some((item) => {
+            const savedPhone = String(item.phone || '').replace(/\D/g, '');
+            return savedPhone === currentPhone && item.status === 'pending';
+        });
+    };
+
+    const isSelectedDateTimeInPast = () => {
+        if (!currentAppointment.date) return false;
+
+        const [datePart, timePart] = currentAppointment.date.split(' ');
+
+        if (!datePart || !timePart) return false;
+
+        return isPastTimeSlot(datePart, timePart);
+    };
+
+    const duplicatePhoneError =
+        currentAppointment.phone.length === 11 && hasActiveAppointmentByPhone()
+            ? 'На этот номер уже есть активная запись. Новую запись можно оформить только после завершения или отмены предыдущей.'
+            : '';
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form data:', currentAppointment);
-        console.log('Phone length:', currentAppointment.phone.length);
+        setFormError('');
 
-        if (currentAppointment.date &&
-            currentAppointment.master &&
-            currentAppointment.service &&
-            currentAppointment.phone.length === 11) {
-
-            console.log('All conditions met, creating appointment...');
-            dispatch(addAppointment());
-            setIsSuccess(true);
-        } else {
-            console.log('Validation failed:', {
-                date: !!currentAppointment.date,
-                master: !!currentAppointment.master,
-                service: !!currentAppointment.service,
-                phoneLength: currentAppointment.phone.length
-            });
-            alert('Пожалуйста, заполните все поля корректно. Проверьте телефон (должно быть 11 цифр)');
+        if (
+            !currentAppointment.clientName.trim() ||
+            !currentAppointment.date ||
+            !currentAppointment.master ||
+            !currentAppointment.service ||
+            currentAppointment.phone.length !== 11
+        ) {
+            setFormError('Пожалуйста, заполните все обязательные поля корректно.');
+            return;
         }
+
+        if (duplicatePhoneError) {
+            setFormError(duplicatePhoneError);
+            return;
+        }
+
+        if (isSelectedDateTimeInPast()) {
+            setFormError('Нельзя записаться на прошедшее время. Пожалуйста, выберите другой слот.');
+            return;
+        }
+
+        if (isMasterBusy()) {
+            setFormError('На выбранные дату и время этот мастер уже записан. Пожалуйста, выберите другое время.');
+            return;
+        }
+
+        if (!isConfirmed) {
+            setFormError('Подтвердите, пожалуйста, корректность данных перед отправкой.');
+            return;
+        }
+
+        dispatch(addAppointment());
+        setIsSuccess(true);
     };
 
     useEffect(() => {
         dispatch(clearLastAppointment());
+        dispatch(clearBookingError());
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log('Current appointment updated:', currentAppointment);
-    }, [currentAppointment]);
-
     const isFormValid = () => {
-        const isValid = currentAppointment.date &&
+        return (
+            currentAppointment.clientName.trim() &&
+            currentAppointment.date &&
             currentAppointment.master &&
             currentAppointment.service &&
-            currentAppointment.phone.length === 11;
-
-        console.log('Validation check:', {
-            date: currentAppointment.date,
-            master: currentAppointment.master,
-            service: currentAppointment.service,
-            phone: currentAppointment.phone,
-            phoneLength: currentAppointment.phone.length,
-            isValid
-        });
-
-        return isValid;
+            currentAppointment.phone.length === 11 &&
+            !duplicatePhoneError &&
+            isConfirmed
+        );
     };
 
     if (isSuccess) {
@@ -166,6 +250,7 @@ const Appointment = () => {
                                 </div>
                             ))}
                         </div>
+
                         <button type="button" onClick={() => setStep(1)} className="back-button">
                             Назад
                         </button>
@@ -175,6 +260,7 @@ const Appointment = () => {
                 {step === 3 && (
                     <div className="form-step">
                         <h2>Выберите дату и время</h2>
+
                         <div className="date-selection">
                             <label>
                                 Дата:
@@ -185,46 +271,69 @@ const Appointment = () => {
                                         setSelectedDate(e.target.value);
                                         handleInputChange('date', '');
                                     }}
-                                    min={new Date().toISOString().split('T')[0]}
+                                    min={getLocalDateString()}
                                 />
                             </label>
+
                             <div className="time-slots">
                                 <h4>Доступное время:</h4>
+
                                 <div className="slots-grid">
-                                    {['10:00', '12:00', '14:00', '16:00', '18:00', '20:00'].map(time => (
-                                        <div
-                                            key={time}
-                                            className={`time-slot ${currentAppointment.date === `${selectedDate} ${time}` ? 'selected' : ''}`}
-                                            onClick={() => {
-                                                if (selectedDate) {
-                                                    handleInputChange('date', `${selectedDate} ${time}`);
-                                                } else {
-                                                    alert('Пожалуйста, сначала выберите дату');
-                                                }
-                                            }}
-                                        >
-                                            {time}
-                                        </div>
-                                    ))}
+                                    {timeSlots.map(time => {
+                                        const fullDate = `${selectedDate} ${time}`;
+
+                                        const isBusySlot = appointments.some(
+                                            (item) =>
+                                                item.master === currentAppointment.master &&
+                                                item.date === fullDate &&
+                                                item.status === 'pending'
+                                        );
+
+                                        const isPastSlot = isPastTimeSlot(selectedDate, time);
+                                        const isUnavailable = isBusySlot || isPastSlot;
+
+                                        return (
+                                            <div
+                                                key={time}
+                                                className={`time-slot ${currentAppointment.date === fullDate ? 'selected' : ''} ${isUnavailable ? 'busy' : ''}`}
+                                                onClick={() => {
+                                                    if (!selectedDate) {
+                                                        return;
+                                                    }
+
+                                                    if (isPastSlot || isBusySlot) {
+                                                        return;
+                                                    }
+
+                                                    setFormError('');
+                                                    handleInputChange('date', fullDate);
+                                                }}
+                                            >
+                                                {time} {isPastSlot ? '(прошло)' : isBusySlot ? '(занято)' : ''}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
+
                             {currentAppointment.date && (
                                 <div className="selected-time-info">
                                     <p>Выбрано: {currentAppointment.date}</p>
                                 </div>
                             )}
                         </div>
+
                         <div className="step-buttons">
                             <button type="button" onClick={() => setStep(2)} className="back-button">
                                 Назад
                             </button>
+
                             <button
                                 type="button"
                                 onClick={() => {
                                     if (currentAppointment.date) {
                                         setStep(4);
-                                    } else {
-                                        alert('Пожалуйста, выберите дату и время');
+                                        setFormError('');
                                     }
                                 }}
                                 className="next-button"
@@ -238,7 +347,19 @@ const Appointment = () => {
                 {step === 4 && (
                     <div className="form-step">
                         <h2>Ваши контактные данные</h2>
+
                         <div className="contact-form">
+                            <label>
+                                Ваше имя:
+                                <input
+                                    type="text"
+                                    value={currentAppointment.clientName}
+                                    onChange={(e) => handleInputChange('clientName', e.target.value)}
+                                    placeholder="Например, Анна"
+                                    required
+                                />
+                            </label>
+
                             <label>
                                 Номер телефона:
                                 <input
@@ -249,21 +370,75 @@ const Appointment = () => {
                                     required
                                 />
                             </label>
+
                             <p className="phone-note">
                                 Мы свяжемся с вами по этому номеру для подтверждения записи
                             </p>
+
+                            {(duplicatePhoneError || formError) && (
+                                <p className="booking-error">{duplicatePhoneError || formError}</p>
+                            )}
+
+                            <label>
+                                Идея тату:
+                                <textarea
+                                    value={currentAppointment.tattooIdea}
+                                    onChange={(e) => handleInputChange('tattooIdea', e.target.value)}
+                                    placeholder="Опишите идею или стиль татуировки"
+                                    rows="3"
+                                />
+                            </label>
+
+                            <label>
+                                Размер:
+                                <input
+                                    type="text"
+                                    value={currentAppointment.tattooSize}
+                                    onChange={(e) => handleInputChange('tattooSize', e.target.value)}
+                                    placeholder="Например, 10x15 см"
+                                />
+                            </label>
+
+                            <label>
+                                Место нанесения:
+                                <input
+                                    type="text"
+                                    value={currentAppointment.bodyPlacement}
+                                    onChange={(e) => handleInputChange('bodyPlacement', e.target.value)}
+                                    placeholder="Например, предплечье"
+                                />
+                            </label>
+
+                            <label className="confirm-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={isConfirmed}
+                                    onChange={(e) => {
+                                        setIsConfirmed(e.target.checked);
+                                        setFormError('');
+                                    }}
+                                />
+                                <span>Подтверждаю, что все данные указаны верно</span>
+                            </label>
                         </div>
+
                         <div className="appointment-summary">
                             <h3>Ваша запись:</h3>
+                            <p><strong>Имя:</strong> {currentAppointment.clientName || '—'}</p>
                             <p><strong>Услуга:</strong> {currentAppointment.service}</p>
                             <p><strong>Мастер:</strong> {currentAppointment.master}</p>
                             <p><strong>Дата:</strong> {currentAppointment.date}</p>
                             <p><strong>Телефон:</strong> {phone}</p>
+                            <p><strong>Идея:</strong> {currentAppointment.tattooIdea || '—'}</p>
+                            <p><strong>Размер:</strong> {currentAppointment.tattooSize || '—'}</p>
+                            <p><strong>Место нанесения:</strong> {currentAppointment.bodyPlacement || '—'}</p>
                         </div>
+
                         <div className="step-buttons">
                             <button type="button" onClick={() => setStep(3)} className="back-button">
                                 Назад
                             </button>
+
                             <button
                                 type="submit"
                                 className={`submit-button ${!isFormValid() ? 'disabled' : ''}`}

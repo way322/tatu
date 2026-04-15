@@ -20,12 +20,13 @@ const Header = () => {
                 <Link to="/" className="logo" onClick={closeMobileMenu}>
                     Tatu Studio
                 </Link>
+
                 <button
                     className="mobile-menu-btn"
                     onClick={toggleMobileMenu}
                     aria-label="Открыть меню"
                 >
-                    <img src="/images/menu.png" alt="" srcset="" className='menu'/>
+                    <img src="/images/menu.png" alt="" srcSet="" className="menu" />
                 </button>
 
                 <nav className={`nav ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
@@ -36,6 +37,7 @@ const Header = () => {
                     >
                         Главная
                     </Link>
+
                     <Link
                         to="/services"
                         className={location.pathname === '/services' ? 'nav-link active' : 'nav-link'}
@@ -43,6 +45,7 @@ const Header = () => {
                     >
                         Услуги
                     </Link>
+
                     <Link
                         to="/appointment"
                         className={location.pathname === '/appointment' ? 'nav-link active' : 'nav-link'}
@@ -50,6 +53,15 @@ const Header = () => {
                     >
                         Записаться
                     </Link>
+
+                    <Link
+                        to="/my-appointment"
+                        className={location.pathname === '/my-appointment' ? 'nav-link active' : 'nav-link'}
+                        onClick={closeMobileMenu}
+                    >
+                        Моя запись
+                    </Link>
+
                     <Link
                         to="/masters"
                         className={location.pathname === '/masters' ? 'nav-link active' : 'nav-link'}
@@ -57,6 +69,7 @@ const Header = () => {
                     >
                         Мастера
                     </Link>
+
                     <Link
                         to="/gallery"
                         className={location.pathname === '/gallery' ? 'nav-link active' : 'nav-link'}
@@ -64,6 +77,7 @@ const Header = () => {
                     >
                         Галерея
                     </Link>
+
                     <Link
                         to="/contacts"
                         className={location.pathname === '/contacts' ? 'nav-link active' : 'nav-link'}
